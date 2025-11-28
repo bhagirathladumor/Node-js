@@ -20,31 +20,22 @@ const fs = require("fs");
 //     if(err)
 //     {
 //         console.log(err);
-        
+
 //     }
 //     else
 //     {
 //         console.log("program succesfull!!!");
-        
+
 //     }
 // });
 
+const result = fs.readFileSync("./demo.txt", "utf-8");
+console.log(result);
 
-
-
-const result = fs.readFileSync("./demo.txt","utf-8")
+fs.readFile("./demo.txt", "utf-8", (err, result) => {
+  if (err) {
+    console.log(err);
+  } else {
     console.log(result);
-
-fs.readFile("./demo.txt","utf-8", (err , result) => {
-    if(err)
-    {
-        console.log(err);
-        
-    }
-    else
-    {
-        console.log(result);
-        
-    }
-
-})
+  }
+});
