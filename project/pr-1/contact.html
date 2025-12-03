@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us</title>
+    <style>
+        body { margin:0; font-family:Poppins, sans-serif; background:#f4f7fe; }
+        nav { background:#4A90E2; padding:15px; text-align:center; }
+        nav a { color:white; margin:0 15px; text-decoration:none; font-weight:600; }
+        .container { width:400px; margin:50px auto; background:white; padding:20px; border-radius:10px;
+                     box-shadow:0 0 10px rgba(0,0,0,0.1); }
+        label { display:block; margin-bottom:5px; }
+        input, textarea { width:100%; padding:10px; margin-bottom:10px; border-radius:6px; border:1px solid #ccc; }
+        button { background:#4A90E2; color:white; border:none; padding:10px 20px;
+                 border-radius:6px; cursor:pointer; width:100%; font-weight:600; }
+        footer { text-align:center; padding:20px; background:#e3e7f1; margin-top:40px; }
+    </style>
+</head>
+<body>
+    <nav>
+       <a href="/index">Home</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+    </nav>
+
+    <div class="container">
+        <h2>Contact Us</h2>
+        <label>Name</label>
+        <input type="text" placeholder="Enter your name" />
+
+        <label>Email</label>
+        <input type="email" placeholder="Enter your email" />
+
+        <label>Message</label>
+        <textarea rows="4" placeholder="Write your message"></textarea>
+
+        <button>Submit</button>
+    </div>
+</body>
+</html>
