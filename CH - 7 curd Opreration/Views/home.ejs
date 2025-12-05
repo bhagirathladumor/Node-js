@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Home</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 align="center">Home</h1>
+    <!-- <h1>Hello 👋 <%= name %>
+    </h1>
+    <h2>Welcome To <% if(isAdmin) {%> ADMIN Penel <%} else {%> User <%}%>
+    </h2> -->
+
+    <table border="1" align="center" cellspacing="10" cellpadding="10">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>Phone Num</th>
+            <th>Address</th>
+            <th>Age</th>
+        </tr>
+        <%allUsers.map((User , index)=>{ %>
+            <tr>
+                <td>
+                    <%= User.Id %>
+                </td>
+                <td>
+                    <%= User.Name %>
+                </td>
+                <td>
+                    <%= User.Email %>
+                </td>
+                <td>
+                    <%= User.Password %>
+                </td>
+                <td>
+                    <%= User.Phone %>
+                </td>
+                <td>
+                    <%= User.Address %>
+                </td>
+                <td>
+                    <%= User.Age %>
+                </td>
+            </tr>
+            <% })%>
+    </table>
+</body>
+
+</html>
