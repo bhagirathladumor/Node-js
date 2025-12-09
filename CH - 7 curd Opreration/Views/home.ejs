@@ -1,58 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <title>Home</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User List</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(120deg, #8ae7a9, #d36ba4);
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        text-align: center;
+        color: #fff;
+        margin: 10px 0;
+      }
+      table {
+        border-collapse: collapse;
+        width: 90%;
+        margin: auto;
+        background: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+      th,
+      td {
+        padding: 8px;
+        text-align: center;
+      }
+      th {
+        background: #86cffa;
+        color: white;
+      }
+      tr:nth-child(even) {
+        background: #c7b138;
+      }
+      tr:hover {
+        background: #56a0dd;
+      }
+      a {
+        text-decoration: none;
+        color: white;
+      }
+      button {
+        padding: 8px 10px;
+        border: none;
+        border-radius: 5px;
+        background: #07a5aa;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      button:hover {
+        background: #e743b1;
+      }
+      .add-user {
+        display: block;
+        width: 100px;
+        margin: 20px auto;
+        text-align: center;
+        background: #1bac0e;
+      }
+      .add-user:hover {
+        background: #07c407;
+      }
     </style>
-</head>
-
-<body>
-    <h1 align="center">Home</h1>
-    <!-- <h1>Hello 👋 <%= name %>
-    </h1>
-    <h2>Welcome To <% if(isAdmin) {%> ADMIN Penel <%} else {%> User <%}%>
-    </h2> -->
-
-    <table border="1" align="center" cellspacing="10" cellpadding="10">
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Password</th>
-            <th>Phone Num</th>
-            <th>Address</th>
-            <th>Age</th>
-        </tr>
-        <%allUsers.map((User , index)=>{ %>
-            <tr>
-                <td>
-                    <%= User.Id %>
-                </td>
-                <td>
-                    <%= User.Name %>
-                </td>
-                <td>
-                    <%= User.Email %>
-                </td>
-                <td>
-                    <%= User.Password %>
-                </td>
-                <td>
-                    <%= User.Phone %>
-                </td>
-                <td>
-                    <%= User.Address %>
-                </td>
-                <td>
-                    <%= User.Age %>
-                </td>
-            </tr>
-            <% })%>
+  </head>
+  <body>
+    <h1>User List</h1>
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Email</th>
+        <th>Password</th>
+        <th>Phone</th>
+        <th>Address</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+      <% allUsers.map((user , index) => { %>
+      <tr>
+        <td><%= user.Id %></td>
+        <td><%= user.Name %></td>
+        <td><%= user.Age %></td>
+        <td><%= user.Email %></td>
+        <td><%= user.Password %></td>
+        <td><%= user.Phone %></td>
+        <td><%= user.Address %></td>
+        <td>
+          <button><a href="/editUser?id=<%= user.Id %>">Edit</a></button>
+        </td>
+        <td>
+          <button><a href="/deleteUser?id=<%= user.Id %>">Delete</a></button>
+        </td>
+      </tr>
+      <% }) %>
     </table>
-</body>
-
+    <button class="add-user"><a href="/form">Add User</a></button>
+  </body>
 </html>
