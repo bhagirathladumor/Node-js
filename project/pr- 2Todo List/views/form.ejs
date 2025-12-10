@@ -5,51 +5,124 @@
 <title>Add Task</title>
 
 <style>
-    body {
-        background: #f2f2f2;
-        font-family: Arial, sans-serif;
-        margin: 0;
-    }
 
-    .container {
-        max-width: 600px;
-        margin: 30px auto;
-        background: white;
-        padding: 20px;
-        border-radius: 6px;
-        box-shadow: 0 0 6px rgba(0,0,0,0.1);
-    }
+/* ===== GLOBAL ===== */
+body {
+    background: linear-gradient(135deg, #e9eef5, #dfe7f3);
+    font-family: "Inter", sans-serif;
+    margin: 0;
+    padding: 0;
+}
 
-    label {
-        font-weight: bold;
-        display: block;
-        margin-top: 15px;
-    }
+/* ===== CONTAINER ===== */
+.container {
+    max-width: 650px;
+    margin: 60px auto;
+    background: #ffffffcc;
+    padding: 45px;
+    border-radius: 24px;
+    backdrop-filter: blur(14px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+    border: 1px solid rgba(255,255,255,0.6);
+    animation: fadeUp 0.6s ease;
+}
 
-    input, textarea {
-        width: 100%;
-        padding: 10px;
-        margin-top: 6px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-    }
+h2 {
+    margin: 0;
+    margin-bottom: 35px;
+    font-size: 30px;
+    font-weight: 700;
+    color: #1d1d1d;
+    text-align: center;
+    letter-spacing: -0.5px;
+}
 
-    .btn-submit {
-        background: #007bff;
-        padding: 10px 18px;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        margin-top: 20px;
-        cursor: pointer;
-    }
+/* ===== FORM LAYOUT ===== */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
 
-    .btn-back {
-        text-decoration: none;
-        display: inline-block;
-        margin-top: 20px;
-        color: #007bff;
+/* ===== INPUT FIELDS ===== */
+label {
+    font-weight: 600;
+    display: block;
+    color: #222;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 14px;
+    font-size: 15px;
+    border: 1px solid #d4d8e0;
+    border-radius: 12px;
+    background: #fff;
+    outline: none;
+    transition: 0.25s;
+    box-sizing: border-box;
+}
+
+input:focus, textarea:focus {
+    border-color: #3d6ef7;
+    box-shadow: 0 0 0 4px rgba(61,110,247,0.15);
+}
+
+textarea {
+    height: 130px;
+    resize: none;
+}
+
+/* ===== SUBMIT BTN ===== */
+.btn-submit {
+    margin-top: 10px;
+    padding: 15px 18px;
+    background: linear-gradient(135deg, #3d6ef7, #5692ff);
+    border: none;
+    border-radius: 14px;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.25s;
+    box-shadow: 0 12px 28px rgba(80,120,255,0.35);
+}
+
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 36px rgba(80,120,255,0.45);
+}
+
+/* ===== BACK BUTTON ===== */
+.btn-back {
+    margin-top: 35px;
+    display: inline-block;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+    color: #3d6ef7;
+    transition: 0.2s;
+    text-align: center;
+}
+
+.btn-back:hover {
+    opacity: 0.7;
+}
+
+/* ===== ANIM ===== */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
     }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 </style>
 </head>
 
@@ -60,20 +133,30 @@
 
     <form action="/addTask" method="POST">
 
-        <label>Title</label>
-        <input type="text" name="title" required>
+        <div>
+            <label>Title</label>
+            <input type="text" name="title" required>
+        </div>
 
-        <label>Description</label>
-        <textarea name="task" required></textarea>
+        <div>
+            <label>Description</label>
+            <textarea name="task" required></textarea>
+        </div>
 
-        <label>Date</label>
-        <input type="date" name="date" required>
+        <div>
+            <label>Date</label>
+            <input type="date" name="date" required>
+        </div>
 
-        <label>Start Time</label>
-        <input type="time" name="startTime" required>
+        <div>
+            <label>Start Time</label>
+            <input type="time" name="startTime" required>
+        </div>
 
-        <label>End Time</label>
-        <input type="time" name="endTime" required>
+        <div>
+            <label>End Time</label>
+            <input type="time" name="endTime" required>
+        </div>
 
         <button class="btn-submit" type="submit">Add Task</button>
 

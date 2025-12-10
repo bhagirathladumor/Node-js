@@ -3,74 +3,166 @@
 <head>
 <meta charset="UTF-8">
 <title>Task Manager</title>
+
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        background: #f2f2f2;
-        margin: 0;
-        padding: 0;
-    }
 
-    .container {
-        max-width: 700px;
-        margin: 30px auto;
-        background: white;
-        padding: 20px;
-        border-radius: 6px;
-        box-shadow: 0 0 6px rgba(0,0,0,0.1);
-    }
+/* ========= GLOBAL ========= */
+body {
+    font-family: "Inter", sans-serif;
+    background: linear-gradient(135deg, #e9eef5, #dfe7f3);
+    margin: 0;
+    padding: 0;
+    color: #222;
+}
 
-    h1 {
-        margin-bottom: 10px;
-    }
+.container {
+    max-width: 820px;
+    margin: 50px auto;
+    background: #ffffffcc;
+    padding: 40px;
+    border-radius: 22px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+    border: 1px solid rgba(255,255,255,0.6);
+    animation: fadeUp 0.6s ease;
+}
 
-    .btn-add {
-        display: inline-block;
-        background: #007bff;
-        padding: 10px 14px;
-        color: white;
-        text-decoration: none;
-        border-radius: 4px;
-        margin-bottom: 20px;
-    }
+/* ========= TITLE ========= */
+h1 {
+    margin-bottom: 30px;
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: -0.6px;
+    color: #1a1a1a;
+    text-align: center;
+}
 
-    .task {
-        background: #fafafa;
-        padding: 15px;
-        margin-bottom: 10px;
-        border-radius: 4px;
-        border-left: 4px solid #007bff;
-    }
+/* ========= ADD BUTTON ========= */
+.btn-add {
+    display: inline-block;
+    background: linear-gradient(135deg, #3d6ef7, #5692ff);
+    padding: 14px 22px;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    transition: 0.25s;
+    box-shadow: 0 6px 20px rgba(80,120,255,0.35);
+}
 
-    .task-title {
-        font-weight: bold;
-        font-size: 16px;
-    }
+.btn-add:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(80,120,255,0.45);
+}
 
-    .task-time {
-        color: #555;
-        margin: 5px 0;
-        font-size: 14px;
-    }
+/* ========= TASK CARD ========= */
+.task {
+    background: #ffffff;
+    padding: 25px;
+    margin-top: 18px;
+    border-radius: 18px;
+    border: 1px solid #e6e9ef;
+    transition: 0.25s;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
 
-    .actions a {
-        margin-right: 12px;
-        text-decoration: none;
-        color: #007bff;
-    }
+.task:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.09);
+}
 
-    .no-task {
-        text-align: center;
-        padding: 30px 0;
-        color: #777;
+/* left color strip */
+.task::before {
+    content: "";
+    width: 6px;
+    height: 100%;
+    background: linear-gradient(180deg, #3d6ef7, #589bff);
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 18px 0 0 18px;
+}
+
+.task-title {
+    font-weight: 600;
+    font-size: 19px;
+    margin-bottom: 8px;
+    color: #1c1c1c;
+}
+
+.task p {
+    font-size: 15px;
+    color: #4a4a4a;
+    margin: 8px 0;
+    line-height: 1.45;
+}
+
+.task-time {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #777;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Clock dot */
+.task-time::before {
+    content: "⏱";
+    font-size: 13px;
+}
+
+/* ========= ACTION BUTTONS ========= */
+.actions {
+    margin-top: 14px;
+}
+
+.actions a {
+    font-size: 14px;
+    margin-right: 20px;
+    padding: 5px 8px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #3d6ef7;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.actions a:hover {
+    background: #eef3ff;
+    color: #284fca;
+}
+
+/* ========= EMPTY TASK ========= */
+.no-task {
+    text-align: center;
+    padding: 45px 0;
+    color: #788;
+    font-size: 16px;
+}
+
+/* ========= ANIMATION ========= */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
     }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 </style>
 </head>
 
 <body>
 
 <div class="container">
-    <h1>Tasks</h1>
+
+    <h1>My Tasks</h1>
 
     <a class="btn-add" href="/newTask">+ Add Task</a>
 
@@ -81,8 +173,12 @@
     <% task.map((task)=>{ %>
         <div class="task">
             <div class="task-title"><%= task.title %></div>
-            <div><%= task.task %></div>
-            <div class="task-time"><%= task.date %> • <%= task.startTime %> - <%= task.endTime %></div>
+
+            <p><%= task.task %></p>
+
+            <div class="task-time">
+                <%= task.date %> • <%= task.startTime %> - <%= task.endTime %>
+            </div>
 
             <div class="actions">
                 <a href="/editTask?id=<%= task.id %>">Edit</a>
