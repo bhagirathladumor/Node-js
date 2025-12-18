@@ -1,0 +1,148 @@
+/* ===== Reset ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", system-ui, sans-serif;
+}
+
+/* ===== Body ===== */
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #2678af, #764ba2);
+}
+
+/* ===== Container ===== */
+.container {
+    width: 360px;
+    padding: 40px 35px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    animation: fadeUp 0.7s ease;
+}
+
+/* ===== Animation ===== */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== Title ===== */
+.container h1 {
+    margin-bottom: 28px;
+    font-size: 26px;
+    font-weight: 600;
+    color: #333;
+}
+
+/* ===== Input Groups ===== */
+.input-group {
+    text-align: left;
+    margin-bottom: 18px;
+}
+
+.input-group label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #555;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 14px;
+    margin-top: 6px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    font-size: 15px;
+    background: #fafafa;
+    transition: 0.3s ease;
+}
+
+.input-group input:focus {
+    background: #fff;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+    outline: none;
+}
+
+/* ===== Buttons ===== */
+.btn {
+    width: 100%;
+    padding: 13px;
+    margin-top: 10px;
+    border-radius: 12px;
+    border: none;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    color: #fff;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    transition: 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.45);
+}
+
+/* ===== Back Button ===== */
+#backBtn .btn {
+    background: linear-gradient(135deg, #43e97b, #38f9d7);
+    color: #1b4332;
+}
+
+#backBtn .btn:hover {
+    box-shadow: 0 10px 25px rgba(67, 233, 123, 0.45);
+}
+
+/* ===== Wide Container ===== */
+.container.wide {
+    width: 750px;
+}
+
+/* ===== Table Wrapper ===== */
+.table-wrapper {
+    margin-top: 25px;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== Fancy Table ===== */
+.fancy-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+}
+
+.fancy-table thead {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: #fff;
+}
+
+.fancy-table th,
+.fancy-table td {
+    padding: 16px;
+    font-size: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.fancy-table tbody tr:nth-child(even) {
+    background: #f8f9ff;
+}
+
+.fancy-table tbody tr:hover {
+    background: #eef2ff;
+    transition: 0.2s;
+}

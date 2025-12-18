@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Page</title>
+    <!-- main css file  -->
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Register</h1>
+
+        <form action="/addUser" method="post">
+            <div class="input-group">
+                <label for="name">Full Name</label>
+                <input type="text" name="name" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="input-group">
+                <label for="age">Profile Name</label>
+                <input type="text" name="profileName" placeholder="Enter your profile name" required>
+            </div>
+
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" placeholder="Enter your email" required>
+            </div>
+
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" placeholder="Enter your password" required>
+            </div>
+
+            <button class="btn" type="submit">Register</button>
+        </form>
+        <div id="backBtn">
+            <a href="/backUser"><button class="btn" type="submit">Back</button></a>
+        </div>
+    </div>
+</body>
+
+</html>
