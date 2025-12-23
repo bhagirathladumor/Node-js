@@ -1,4 +1,5 @@
 const express = require("express");
+const { startTransition } = require("react");
 
 const app = express();
 
@@ -8,8 +9,7 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded());
 app.use("/css", express.static(__dirname + "/css"));
 
-let usersData = [
-  [
+let usersData = [npm 
     {
       id: 101,
       name: "dhruv",
@@ -31,7 +31,6 @@ let usersData = [
       email: "vishal@gmail.com",
       password: "vishal7096",
     },
-  ],
 ];
 
 app.get("/", (req, res) => {
