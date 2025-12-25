@@ -13,7 +13,7 @@ app.get("/", async (req, res) => {
   res.render("index", { bookings });
 });
 
-app.get("/add",(req, res) => {
+app.get("/add", (req, res) => {
   res.render("form");
 });
 

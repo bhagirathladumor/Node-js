@@ -26,6 +26,8 @@ All tasks are stored in **memory (array)** for learning purposes.
 - **HTML & CSS**
 
 ---
+![alt text](image.png)
+![alt text](image-1.png)
 
 ## 📂 Project Structure
 

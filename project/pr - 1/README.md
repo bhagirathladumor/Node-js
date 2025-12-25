@@ -27,4 +27,6 @@ It serves multiple HTML pages, handles **404 errors**, and logs **user access de
 
 ---
 
+![alt text](image.png)
+![alt text](image-1.png)
 ## 📂 Project Structure

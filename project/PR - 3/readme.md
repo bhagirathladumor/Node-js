@@ -25,6 +25,8 @@ The project demonstrates basic authentication logic using in-memory user data an
 - **HTML & CSS**
 
 ---
+![alt text](image.png)
+![alt text](image-1.png)
 
 ## 📂 Project Structure
 
