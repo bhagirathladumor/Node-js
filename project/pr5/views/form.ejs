@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Builder</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        body {
+            background-color: #f4f6f9;
+        }
+        .page-title {
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        .form-card {
+            border-top: 5px solid #f39c12;
+        }
+        .preview-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px dashed #ccc;
+        }
+        label {
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-4">
+    <h2 class="page-title mb-3">
+        <i class="fa-solid fa-helmet-safety"></i> Add Builder
+    </h2>
+
+    <div class="card form-card shadow">
+        <div class="card-body">
+
+            <!-- IMPORTANT: multipart/form-data -->
+            <form action="/addBuilder" method="POST" enctype="multipart/form-data">
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <label>Builder Name</label>
+                        <input type="text" name="name" class="form-control" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label>Company Name</label>
+                        <input type="text" name="Compony_name" class="form-control" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label>Project</label>
+                        <input type="text" name="project" class="form-control" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label>Rating</label>
+                        <input type="number" name="rating" step="0.1" max="5" class="form-control" required>
+                    </div>
+
+                    <!-- Image Upload -->
+                    <div class="col-md-6">
+                        <label>Builder Image</label>
+                        <input type="file"
+                               name="image"
+                               class="form-control"
+                               onchange="previewImage(event)"
+                               required>
+                    </div>
+
+                    <!-- Image Preview -->
+                    <div class="col-md-6">
+                        <label>Image Preview</label>
+                        <img id="preview" class="preview-img"
+                             src="https://via.placeholder.com/400x220">
+                    </div>
+
+                </div>
+
+                <div class="mt-4 text-end">
+                    <a href="/builders" class="btn btn-secondary">
+                        <i class="fa fa-arrow-left"></i> Back
+                    </a>
+                    <button type="submit" class="btn btn-warning text-white">
+                        <i class="fa fa-save"></i> Save Builder
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function previewImage(event) {
+        const preview = document.getElementById("preview");
+        const file = event.target.files[0];
+
+        if (file) {
+            preview.src = URL.createObjectURL(file);
+        }
+    }
+</script>
+
+</body>
+</html>

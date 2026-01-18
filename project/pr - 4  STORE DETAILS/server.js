@@ -23,12 +23,6 @@ app.post("/add", async (req, res) => {
   res.redirect("/");
 });
 
-app.post("/book", (req, res) => {
-  const bookingData = req.body;
-  // Here, you would typically save bookingData to a database
-  res.render("/form");
-});
-
 app.get("/delete/:id", async (req, res) => {
   const id = req.params.id;
   await hotel.findByIdAndDelete(id);
