@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Password - Admin Panel</title>
+    <link rel="stylesheet" href="/css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="user-avatar" style="width: 60px; height: 60px; margin: 0 auto 1rem; font-size: 1.5rem; background: var(--success-color);">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h2>Reset Password</h2>
+                <p>Create a new secure password for your account</p>
+            </div>
+            
+            <% if (typeof error !== 'undefined' && error) { %>
+                <div style="background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; padding: 0.75rem; border-radius: 0.5rem; margin-bottom: 1rem; text-align: center;">
+                    <i class="fas fa-exclamation-triangle"></i> <%= error %>
+                </div>
+            <% } %>
+            
+            <form action="/forgot-password" method="POST">
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-key"></i> New Password
+                    </label>
+                    <input type="password" name="newPass" class="form-control" placeholder="Enter new password" 
+                           minlength="6" required>
+                    <small style="color: var(--text-secondary); font-size: 0.75rem;">Password must be at least 6 characters long</small>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-check-circle"></i> Confirm Password
+                    </label>
+                    <input type="password" name="ConfPass" class="form-control" placeholder="Confirm new password" 
+                           minlength="6" required>
+                    <small id="passwordMatch" style="font-size: 0.75rem;"></small>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 1rem;" id="submitBtn">
+                    <i class="fas fa-save"></i> Reset Password
+                </button>
+            </form>
+            
+            <div style="text-align: center; margin-top: 1.5rem;">
+                <a href="/" class="btn btn-outline" style="width: 100%;">
+                    <i class="fas fa-arrow-left"></i> Back to Login
+                </a>
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem; font-size: 0.875rem; color: var(--text-secondary);">
+                © 2024 Admin Panel. All rights reserved.
+            </div>
+        </div>
+    </div>
+    
+    <script src="/js/admin.js"></script>
+    <script>
+        const newPassInput = document.querySelector('input[name="newPass"]');
+        const confPassInput = document.querySelector('input[name="ConfPass"]');
+        const passwordMatch = document.getElementById('passwordMatch');
+        const submitBtn = document.getElementById('submitBtn');
+        
+        function checkPasswordMatch() {
+            if (confPassInput.value === '') {
+                passwordMatch.textContent = '';
+                passwordMatch.style.color = '';
+                return;
+            }
+            
+            if (newPassInput.value === confPassInput.value) {
+                passwordMatch.textContent = '✓ Passwords match';
+                passwordMatch.style.color = 'var(--success-color)';
+                submitBtn.disabled = false;
+            } else {
+                passwordMatch.textContent = '✗ Passwords do not match';
+                passwordMatch.style.color = 'var(--danger-color)';
+                submitBtn.disabled = true;
+            }
+        }
+        
+        newPassInput.addEventListener('input', checkPasswordMatch);
+        confPassInput.addEventListener('input', checkPasswordMatch);
+    </script>
+</body>
+</html>
