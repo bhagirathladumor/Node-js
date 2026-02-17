@@ -1,0 +1,43 @@
+    <script src="/js/admin.js"></script>
+    
+    <% if (typeof flash !== 'undefined') { %>
+        <% if (flash.success && flash.success.length > 0) { %>
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: '<%= flash.success[0] %>',
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+            </script>
+        <% } %>
+        <% if (flash.error && flash.error.length > 0) { %>
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: '<%= flash.error[0] %>',
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+            </script>
+        <% } %>
+    <% } %>
+    
+    <script>
+        if (window.innerWidth <= 768) {
+            document.getElementById('sidebarToggle').style.display = 'inline-flex';
+        }
+        
+        window.addEventListener('resize', function() {
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebarToggle').style.display = 'inline-flex';
+            } else {
+                document.getElementById('sidebarToggle').style.display = 'none';
+                document.querySelector('.sidebar').classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

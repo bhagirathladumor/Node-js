@@ -1,0 +1,63 @@
+<%- include('../items/partials/header', { title: 'View Subcategories' }) %>
+
+<%- include('../items/partials/sidebar') %>
+
+<!-- Main Content -->
+<div class="main-content">
+    <%- include('../items/partials/topbar', { pageTitle: 'All Subcategories' }) %>
+    
+    <!-- Content -->
+    <div class="content">
+        <div class="card">
+            <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+                <h3>All Subcategories</h3>
+                <a href="/addSubcategory" class="btn btn-primary">+ Add New Subcategory</a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (subcategories.length > 0) { %>
+                                <% subcategories.forEach((subcategory, index) => { %>
+                                    <tr>
+                                        <td><%= index + 1 %></td>
+                                        <td>
+                                            <% if (subcategory.image) { %>
+                                                <img src="/uploads/subcategory/<%= subcategory.image %>" alt="<%= subcategory.name %>" style="width: 60px; height: 60px; object-fit: cover; border-radius: 5px;">
+                                            <% } else { %>
+                                                <span>No Image</span>
+                                            <% } %>
+                                        </td>
+                                        <td><%= subcategory.name %></td>
+                                        <td><%= subcategory.categoryId ? subcategory.categoryId.name : 'N/A' %></td>
+                                        <td>
+                                            <div class="d-flex gap-2">
+                                                <a href="/editSubcategory/<%= subcategory._id %>" class="btn btn-warning btn-sm">Edit</a>
+                                                <a href="/deleteSubcategory/<%= subcategory._id %>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="5" style="text-align: center;">No subcategories found</td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../items/partials/footer') %>

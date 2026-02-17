@@ -1,0 +1,90 @@
+<%- include('../items/partials/header', { title: 'View Products' }) %>
+
+<%- include('../items/partials/sidebar') %>
+
+<!-- Main Content -->
+<div class="main-content">
+    <%- include('../items/partials/topbar', { pageTitle: 'All Products' }) %>
+    
+    <!-- Content -->
+    <div class="content">
+        <div class="card">
+            <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+                <h3>All Products</h3>
+                <a href="/addProduct" class="btn btn-primary">+ Add New Product</a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Images</th>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Subcategory</th>
+                                <th>Extra Category</th>
+                                <th>Price</th>
+                                <th>Discount</th>
+                                <th>Stock</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (products.length > 0) { %>
+                                <% products.forEach((product, index) => { %>
+                                    <tr>
+                                        <td><%= index + 1 %></td>
+                                        <td>
+                                            <% if (product.images && product.images.length > 0) { %>
+                                                <div style="display: flex; gap: 5px;">
+                                                    <% product.images.slice(0, 2).forEach(img => { %>
+                                                        <img src="/uploads/product/<%= img %>" alt="<%= product.title %>" style="width: 50px; height: 50px; object-fit: cover; border-radius: 3px;">
+                                                    <% }) %>
+                                                    <% if (product.images.length > 2) { %>
+                                                        <span>+<%= product.images.length - 2 %></span>
+                                                    <% } %>
+                                                </div>
+                                            <% } else { %>
+                                                <span>No Images</span>
+                                            <% } %>
+                                        </td>
+                                        <td><%= product.title %></td>
+                                        <td><%= product.categoryId ? product.categoryId.name : 'N/A' %></td>
+                                        <td><%= product.subcategoryId ? product.subcategoryId.name : 'N/A' %></td>
+                                        <td><%= product.extracategoryId ? product.extracategoryId.name : 'N/A' %></td>
+                                        <td style="font-weight: bold; color: #E91E63;">₹<%= product.price %></td>
+                                        <td><%= product.discount %>%</td>
+                                        <td><%= product.stock %></td>
+                                        <td>
+                                            <% if (product.status === 'available') { %>
+                                                <span class="badge badge-success">Available</span>
+                                            <% } else if (product.status === 'out_of_stock') { %>
+                                                <span class="badge badge-warning">Out of Stock</span>
+                                            <% } else { %>
+                                                <span class="badge badge-danger">Discontinued</span>
+                                            <% } %>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex gap-2">
+                                                <a href="/editProduct/<%= product._id %>" class="btn btn-warning btn-sm">Edit</a>
+                                                <a href="/deleteProduct/<%= product._id %>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="11" style="text-align: center;">No products found</td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../items/partials/footer') %>

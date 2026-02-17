@@ -60,11 +60,24 @@ const updateBuilder = async (req, res) => {
 
 
 const deletebtn = async (req,res) => {
-    console.log(req.params.id);
-    const deletedBuilder =await Builder.findByIdAndDelete(req.params.id)
-    fs.unlink(deletedBuilder.image, (err) => { })
+    const builderId = req.params.id;
+
+    const builder = await Builder.findById(builderId);
+
+    if (builder && builder.image) {
+        const imagePath = path.join(__dirname, "..", builder.image);
+
+        if (fs.existsSync(imagePath)) {
+            fs.unlinkSync(imagePath);
+            console.log("Image deleted from uploads folder");
+        }
+    }
+
+    await Builder.findByIdAndDelete(builderId);
+
     return res.redirect("/");
-}
+};
+
 
 const editbtn = async (req,res) => {
     const builderId = await Builder.findById(req.params.id);

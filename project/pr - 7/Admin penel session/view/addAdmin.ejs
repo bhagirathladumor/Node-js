@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Admin - Admin Panel</title>
+    <link rel="stylesheet" href="/css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2><i class="fas fa-shield-alt"></i> Admin Panel</h2>
+        </div>
+        <nav class="sidebar-menu">
+            <div style="padding: 0.5rem 1rem; color: #888; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Pages</div>
+            <a href="/dashboard" class="<%= currentPath === '/dashboard' ? 'active' : '' %>">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+            </a>
+            <a href="/profile" class="<%= currentPath === '/profile' ? 'active' : '' %>">
+                <i class="fas fa-user"></i> Profile
+            </a>
+            <a href="/viewAdmin" class="<%= currentPath === '/viewAdmin' ? 'active' : '' %>">
+                <i class="fas fa-users"></i> Manage Admins
+            </a>
+            
+            <div style="margin-top: 1rem; padding: 0.5rem 1rem; color: #888; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Tools & Components</div>
+            <a href="/addAdmin" class="<%= currentPath === '/addAdmin' ? 'active' : '' %>">
+                <i class="fas fa-user-plus"></i> Add Admin
+            </a>
+            
+            <div style="margin-top: 1rem; padding: 0.5rem 1rem; color: #888; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Categories</div>
+            <a href="/addCategory" class="<%= currentPath === '/addCategory' ? 'active' : '' %>">
+                <i class="fas fa-plus-circle"></i> Add Categories
+            </a>
+            <a href="/viewCategories" class="<%= currentPath === '/viewCategories' || currentPath.includes('/editCategory') ? 'active' : '' %>">
+                <i class="fas fa-list"></i> All Categories
+            </a>
+            
+            <div style="margin-top: 1rem; padding: 0.5rem 1rem; color: #888; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Sub Categories</div>
+            <a href="/addSubcategory" class="<%= currentPath === '/addSubcategory' ? 'active' : '' %>">
+                <i class="fas fa-plus-circle"></i> Add Sub Categories
+            </a>
+            <a href="/viewSubcategories" class="<%= currentPath === '/viewSubcategories' || currentPath.includes('/editSubcategory') ? 'active' : '' %>">
+                <i class="fas fa-folder"></i> All Sub Categories
+            </a>
+            
+            <div style="margin-top: 1rem; padding: 0.5rem 1rem; color: #888; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Extra Categories</div>
+            <a href="/addExtracategory" class="<%= currentPath === '/addExtracategory' ? 'active' : '' %>">
+                <i class="fas fa-plus-circle"></i> Add Extra Categories
+            </a>
+            <a href="/viewExtracategories" class="<%= currentPath === '/viewExtracategories' || currentPath.includes('/editExtracategory') ? 'active' : '' %>">
+                <i class="fas fa-layer-group"></i> All Extra Categories
+            </a>
+            
+            <div style="margin-top: 1rem; padding: 0.5rem 1rem; color: #888; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Products</div>
+            <a href="/addProduct" class="<%= currentPath === '/addProduct' ? 'active' : '' %>">
+                <i class="fas fa-plus-circle"></i> Add Product
+            </a>
+            <a href="/viewProducts" class="<%= currentPath === '/viewProducts' || currentPath.includes('/editProduct') ? 'active' : '' %>">
+                <i class="fas fa-box"></i> All Products
+            </a>
+            
+            <a href="/change-password" class="<%= currentPath === '/change-password' ? 'active' : '' %>" style="margin-top: 1rem;">
+                <i class="fas fa-key"></i> Change Password
+            </a>
+            <a href="/logout" style="margin-top: 1rem; color: #ef4444;">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </nav>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <button id="sidebarToggle" class="btn btn-outline" style="display: none; margin-right: 1rem;">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1>Add New Admin</h1>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <% if (admin && admin.fname) { %>
+                            <%= admin.fname.charAt(0).toUpperCase() %>
+                        <% } else { %>
+                            A
+                        <% } %>
+                    </div>
+                    <div>
+                        <div style="font-weight: 600;">
+                            <% if (admin && admin.fname && admin.lname) { %>
+                                <%= admin.fname %> <%= admin.lname %>
+                            <% } else { %>
+                                Admin User
+                            <% } %>
+                        </div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">Administrator</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="content">
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-user-plus"></i> Create New Administrator</h3>
+                </div>
+                <div class="card-body">
+                    <form action="/addAdmin" method="POST" enctype="multipart/form-data">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                            <!-- Personal Information -->
+                            <div>
+                                <h4 style="margin-bottom: 1rem; color: var(--text-primary);">Personal Information</h4>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-user"></i> First Name
+                                    </label>
+                                    <input type="text" name="fname" class="form-control" placeholder="Enter first name" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-user"></i> Last Name
+                                    </label>
+                                    <input type="text" name="lname" class="form-control" placeholder="Enter last name" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-venus-mars"></i> Gender
+                                    </label>
+                                    <select name="gander" class="form-control" required>
+                                        <option value="">Select Gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-map-marker-alt"></i> City
+                                    </label>
+                                    <input type="text" name="city" class="form-control" placeholder="Enter city" required>
+                                </div>
+                            </div>
+                            
+                            <!-- Contact & Account Information -->
+                            <div>
+                                <h4 style="margin-bottom: 1rem; color: var(--text-primary);">Contact & Account</h4>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-envelope"></i> Email Address
+                                    </label>
+                                    <input type="email" name="email" class="form-control" placeholder="Enter email address" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-lock"></i> Password
+                                    </label>
+                                    <input type="password" name="password" class="form-control" placeholder="Enter password" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-phone"></i> Phone Number
+                                    </label>
+                                    <input type="tel" name="phone" class="form-control" placeholder="Enter phone number" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-camera"></i> Profile Picture
+                                    </label>
+                                    <input type="file" name="profile" class="form-control" accept="image/*">
+                                    <small style="color: var(--text-secondary); font-size: 0.75rem;">Optional: Upload a profile picture</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- About Section -->
+                        <div class="form-group mt-3">
+                            <label class="form-label">
+                                <i class="fas fa-info-circle"></i> About
+                            </label>
+                            <textarea name="about" class="form-control" rows="4" placeholder="Enter a brief description about the admin" required></textarea>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="d-flex gap-2 mt-3">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Create Admin
+                            </button>
+                            <a href="/viewAdmin" class="btn btn-outline">
+                                <i class="fas fa-arrow-left"></i> Back to Admins
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/js/admin.js"></script>
+    
+    <% if (typeof flash !== 'undefined') { %>
+        <% if (flash.success && flash.success.length > 0) { %>
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: '<%= flash.success[0] %>',
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+            </script>
+        <% } %>
+        <% if (flash.error && flash.error.length > 0) { %>
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: '<%= flash.error[0] %>',
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+            </script>
+        <% } %>
+    <% } %>
+    
+    <script>
+        if (window.innerWidth <= 768) {
+            document.getElementById('sidebarToggle').style.display = 'inline-flex';
+        }
+        
+        window.addEventListener('resize', function() {
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebarToggle').style.display = 'inline-flex';
+            } else {
+                document.getElementById('sidebarToggle').style.display = 'none';
+                document.querySelector('.sidebar').classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

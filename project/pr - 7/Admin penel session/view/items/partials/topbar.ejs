@@ -1,0 +1,30 @@
+<!-- Header -->
+<div class="header">
+    <div class="header-left">
+        <button id="sidebarToggle" class="btn btn-outline" style="display: none; margin-right: 1rem;">
+            <i class="fas fa-bars"></i>
+        </button>
+        <h1><%= pageTitle || 'Admin Panel' %></h1>
+    </div>
+    <div class="header-right">
+        <div class="user-info">
+            <div class="user-avatar">
+                <% if (admin && admin.fname) { %>
+                    <%= admin.fname.charAt(0).toUpperCase() %>
+                <% } else { %>
+                    A
+                <% } %>
+            </div>
+            <div>
+                <div style="font-weight: 600;">
+                    <% if (admin && admin.fname && admin.lname) { %>
+                        <%= admin.fname %> <%= admin.lname %>
+                    <% } else { %>
+                        Admin User
+                    <% } %>
+                </div>
+                <div style="font-size: 0.75rem; color: var(--text-secondary);">Administrator</div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,167 @@
+<%- include('../items/partials/header', { title: 'Edit Product' }) %>
+
+<%- include('../items/partials/sidebar') %>
+
+<!-- Main Content -->
+<div class="main-content">
+    <%- include('../items/partials/topbar', { pageTitle: 'Edit Product' }) %>
+    
+    <!-- Content -->
+    <div class="content">
+        <div class="card">
+            <div class="card-body">
+                <form action="/updateProduct/<%= product._id %>" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="title">Product Title *</label>
+                        <input type="text" id="title" name="title" class="form-control" value="<%= product.title %>" required>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="categoryId">Category *</label>
+                                <select id="categoryId" name="categoryId" class="form-control" required>
+                                    <% categories.forEach(category => { %>
+                                        <option value="<%= category._id %>" <%= product.categoryId.toString() === category._id.toString() ? 'selected' : '' %>>
+                                            <%= category.name %>
+                                        </option>
+                                    <% }) %>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="subcategoryId">Subcategory *</label>
+                                <select id="subcategoryId" name="subcategoryId" class="form-control" required>
+                                    <% subcategories.forEach(sub => { %>
+                                        <option value="<%= sub._id %>" <%= product.subcategoryId.toString() === sub._id.toString() ? 'selected' : '' %>>
+                                            <%= sub.name %>
+                                        </option>
+                                    <% }) %>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="extracategoryId">Extra Category *</label>
+                        <select id="extracategoryId" name="extracategoryId" class="form-control" required>
+                            <% extracategories.forEach(extra => { %>
+                                <option value="<%= extra._id %>" <%= product.extracategoryId.toString() === extra._id.toString() ? 'selected' : '' %>>
+                                    <%= extra.name %>
+                                </option>
+                            <% }) %>
+                        </select>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="price">Price *</label>
+                                <input type="number" id="price" name="price" class="form-control" step="0.01" value="<%= product.price %>" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="discount">Discount (%)</label>
+                                <input type="number" id="discount" name="discount" class="form-control" min="0" max="100" value="<%= product.discount %>">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="stock">Stock Quantity *</label>
+                                <input type="number" id="stock" name="stock" class="form-control" min="0" value="<%= product.stock %>" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="status">Status *</label>
+                                <select id="status" name="status" class="form-control" required>
+                                    <option value="available" <%= product.status === 'available' ? 'selected' : '' %>>Available</option>
+                                    <option value="out_of_stock" <%= product.status === 'out_of_stock' ? 'selected' : '' %>>Out of Stock</option>
+                                    <option value="discontinued" <%= product.status === 'discontinued' ? 'selected' : '' %>>Discontinued</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description *</label>
+                        <textarea id="description" name="description" class="form-control" rows="4" required><%= product.description %></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="images">Product Images (Max 5)</label>
+                        <% if (product.images && product.images.length > 0) { %>
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
+                                <% product.images.forEach(img => { %>
+                                    <img src="/uploads/product/<%= img %>" alt="Product" style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px;">
+                                <% }) %>
+                            </div>
+                        <% } %>
+                        <input type="file" id="images" name="images" class="form-control" accept="image/*" multiple>
+                        <small style="color: #666;">Leave empty to keep current images, or select new ones to replace</small>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-warning">Update Product</button>
+                        <a href="/viewProducts" class="btn btn-outline">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../items/partials/footer') %>
+
+<script>
+    document.getElementById('categoryId').addEventListener('change', async function() {
+        const categoryId = this.value;
+        const subcategorySelect = document.getElementById('subcategoryId');
+        const extracategorySelect = document.getElementById('extracategoryId');
+        
+        if (!categoryId) return;
+
+        try {
+            const response = await fetch(`/api/subcategories/${categoryId}`);
+            const data = await response.json();
+            
+            if (data.success && data.subcategories.length > 0) {
+                subcategorySelect.innerHTML = '<option value="">-- Choose Subcategory --</option>';
+                data.subcategories.forEach(sub => {
+                    subcategorySelect.innerHTML += `<option value="${sub._id}">${sub.name}</option>`;
+                });
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    });
+
+    document.getElementById('subcategoryId').addEventListener('change', async function() {
+        const subcategoryId = this.value;
+        const extracategorySelect = document.getElementById('extracategoryId');
+        
+        if (!subcategoryId) return;
+
+        try {
+            const response = await fetch(`/api/extracategories/${subcategoryId}`);
+            const data = await response.json();
+            
+            if (data.success && data.extracategories.length > 0) {
+                extracategorySelect.innerHTML = '<option value="">-- Choose Extra Category --</option>';
+                data.extracategories.forEach(extra => {
+                    extracategorySelect.innerHTML += `<option value="${extra._id}">${extra.name}</option>`;
+                });
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    });
+</script>

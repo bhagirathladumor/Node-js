@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Admin - Admin Panel</title>
+    <link rel="stylesheet" href="/css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2><i class="fas fa-shield-alt"></i> Admin Panel</h2>
+        </div>
+        <nav class="sidebar-menu">
+            <div style="padding: 0.5rem 1rem; color: #888; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Pages</div>
+            <a href="/dashboard">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+            </a>
+            <a href="/profile">
+                <i class="fas fa-user"></i> Profile
+            </a>
+            <a href="/viewAdmin" class="active">
+                <i class="fas fa-users"></i> Manage Admins
+            </a>
+            
+            <div style="margin-top: 1rem; padding: 0.5rem 1rem; color: #888; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Tools & Components</div>
+            <a href="/addAdmin">
+                <i class="fas fa-user-plus"></i> Add Admin
+            </a>
+            
+            <div style="margin-top: 1rem; padding: 0.5rem 1rem; color: #888; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Categories</div>
+            <a href="/addCategory">
+                <i class="fas fa-plus-circle"></i> Add Categories
+            </a>
+            <a href="/viewCategories">
+                <i class="fas fa-list"></i> All Categories
+            </a>
+            
+            <div style="margin-top: 1rem; padding: 0.5rem 1rem; color: #888; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Sub Categories</div>
+            <a href="/addSubcategory">
+                <i class="fas fa-plus-circle"></i> Add Sub Categories
+            </a>
+            <a href="/viewSubcategories">
+                <i class="fas fa-folder"></i> All Sub Categories
+            </a>
+            
+            <div style="margin-top: 1rem; padding: 0.5rem 1rem; color: #888; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Extra Categories</div>
+            <a href="/addExtracategory">
+                <i class="fas fa-plus-circle"></i> Add Extra Categories
+            </a>
+            <a href="/viewExtracategories">
+                <i class="fas fa-layer-group"></i> All Extra Categories
+            </a>
+            
+            <div style="margin-top: 1rem; padding: 0.5rem 1rem; color: #888; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Products</div>
+            <a href="/addProduct">
+                <i class="fas fa-plus-circle"></i> Add Product
+            </a>
+            <a href="/viewProducts">
+                <i class="fas fa-box"></i> All Products
+            </a>
+            
+            <a href="/change-password" style="margin-top: 1rem;">
+                <i class="fas fa-key"></i> Change Password
+            </a>
+            <a href="/logout" style="margin-top: 1rem; color: #ef4444;">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </nav>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <button id="sidebarToggle" class="btn btn-outline" style="display: none; margin-right: 1rem;">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1>Edit Admin</h1>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <%= admin.fname.charAt(0).toUpperCase() %>
+                    </div>
+                    <div>
+                        <div style="font-weight: 600;"><%= admin.fname %> <%= admin.lname %></div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">Administrator</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="content">
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-user-edit"></i> Edit Administrator</h3>
+                </div>
+                <div class="card-body">
+                    <form action="/updateAdmin/<%= adminToEdit._id %>?returnTo=<%= encodeURIComponent(req.query.returnTo || '/viewAdmin') %>" method="POST" enctype="multipart/form-data">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                            <!-- Personal Information -->
+                            <div>
+                                <h4 style="margin-bottom: 1rem; color: var(--text-primary);">Personal Information</h4>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-user"></i> First Name
+                                    </label>
+                                    <input type="text" name="fname" class="form-control" value="<%= adminToEdit.fname %>" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-user"></i> Last Name
+                                    </label>
+                                    <input type="text" name="lname" class="form-control" value="<%= adminToEdit.lname %>" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-venus-mars"></i> Gender
+                                    </label>
+                                    <select name="gander" class="form-control" required>
+                                        <option value="">Select Gender</option>
+                                        <option value="Male" <%= adminToEdit.gander === 'Male' ? 'selected' : '' %>>Male</option>
+                                        <option value="Female" <%= adminToEdit.gander === 'Female' ? 'selected' : '' %>>Female</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-map-marker-alt"></i> City
+                                    </label>
+                                    <input type="text" name="city" class="form-control" value="<%= adminToEdit.city %>" required>
+                                </div>
+                            </div>
+                            
+                            <!-- Contact & Account Information -->
+                            <div>
+                                <h4 style="margin-bottom: 1rem; color: var(--text-primary);">Contact & Account</h4>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-envelope"></i> Email Address
+                                    </label>
+                                    <input type="email" name="email" class="form-control" value="<%= adminToEdit.email %>" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-phone"></i> Phone Number
+                                    </label>
+                                    <input type="tel" name="phone" class="form-control" value="<%= adminToEdit.phone %>" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-camera"></i> Profile Picture
+                                    </label>
+                                    <% if (adminToEdit.profile && adminToEdit.profile !== 'null' && adminToEdit.profile !== '') { %>
+                                        <div style="margin-bottom: 0.5rem;">
+                                            <img src="/uploads/<%= adminToEdit.profile %>" alt="Current Profile" 
+                                                 style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;">
+                                            <small style="display: block; color: var(--text-secondary);">Current profile picture</small>
+                                        </div>
+                                    <% } %>
+                                    <input type="file" name="profile" class="form-control" accept="image/*">
+                                    <small style="color: var(--text-secondary); font-size: 0.75rem;">Leave empty to keep current picture</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- About Section -->
+                        <div class="form-group mt-3">
+                            <label class="form-label">
+                                <i class="fas fa-info-circle"></i> About
+                            </label>
+                            <textarea name="about" class="form-control" rows="4" required><%= adminToEdit.about %></textarea>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="d-flex gap-2 mt-3">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Update Admin
+                            </button>
+                            <a href="<%= req.query.returnTo || '/viewAdmin' %>" class="btn btn-outline">
+                                <i class="fas fa-arrow-left"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/js/admin.js"></script>
+    <script>
+        if (window.innerWidth <= 768) {
+            document.getElementById('sidebarToggle').style.display = 'inline-flex';
+        }
+        
+        window.addEventListener('resize', function() {
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebarToggle').style.display = 'inline-flex';
+            } else {
+                document.getElementById('sidebarToggle').style.display = 'none';
+                document.querySelector('.sidebar').classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

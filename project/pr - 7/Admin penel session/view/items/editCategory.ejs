@@ -1,0 +1,40 @@
+<%- include('partials/header', { title: 'Edit Category' }) %>
+
+<%- include('partials/sidebar') %>
+
+<!-- Main Content -->
+<div class="main-content">
+    <%- include('partials/topbar', { pageTitle: 'Edit Category' }) %>
+    
+    <!-- Content -->
+    <div class="content">
+        <div class="card">
+            <div class="card-body">
+                <form action="/updateCategory/<%= category._id %>" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="name">Category Name *</label>
+                        <input type="text" id="name" name="name" class="form-control" value="<%= category.name %>" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="image">Category Image</label>
+                        <% if (category.image) { %>
+                            <div style="margin-bottom: 10px;">
+                                <img src="/uploads/category/<%= category.image %>" alt="Current" style="width: 150px; height: 150px; object-fit: cover; border-radius: 5px;">
+                            </div>
+                        <% } %>
+                        <input type="file" id="image" name="image" class="form-control" accept="image/*">
+                        <small style="color: #666;">Leave empty to keep current image</small>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-warning">Update Category</button>
+                        <a href="/viewCategories" class="btn btn-outline">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

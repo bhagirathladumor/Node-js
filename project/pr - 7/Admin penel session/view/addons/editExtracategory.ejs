@@ -1,0 +1,87 @@
+<%- include('../items/partials/header', { title: 'Edit Extra Category' }) %>
+
+<%- include('../items/partials/sidebar') %>
+
+<!-- Main Content -->
+<div class="main-content">
+    <%- include('../items/partials/topbar', { pageTitle: 'Edit Extra Category' }) %>
+    
+    <!-- Content -->
+    <div class="content">
+        <div class="card">
+            <div class="card-body">
+                <form action="/updateExtracategory/<%= extracategory._id %>" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="categoryId">Select Category *</label>
+                        <select id="categoryId" name="categoryId" class="form-control" required>
+                            <% categories.forEach(category => { %>
+                                <option value="<%= category._id %>" <%= extracategory.categoryId.toString() === category._id.toString() ? 'selected' : '' %>>
+                                    <%= category.name %>
+                                </option>
+                            <% }) %>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subcategoryId">Select Subcategory *</label>
+                        <select id="subcategoryId" name="subcategoryId" class="form-control" required>
+                            <% subcategories.forEach(sub => { %>
+                                <option value="<%= sub._id %>" <%= extracategory.subcategoryId.toString() === sub._id.toString() ? 'selected' : '' %>>
+                                    <%= sub.name %>
+                                </option>
+                            <% }) %>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name">Extra Category Name *</label>
+                        <input type="text" id="name" name="name" class="form-control" value="<%= extracategory.name %>" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="image">Extra Category Image</label>
+                        <% if (extracategory.image) { %>
+                            <div style="margin-bottom: 10px;">
+                                <img src="/uploads/extracategory/<%= extracategory.image %>" alt="Current" style="width: 150px; height: 150px; object-fit: cover; border-radius: 5px;">
+                            </div>
+                        <% } %>
+                        <input type="file" id="image" name="image" class="form-control" accept="image/*">
+                        <small style="color: #666;">Leave empty to keep current image</small>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-warning">Update Extra Category</button>
+                        <a href="/viewExtracategories" class="btn btn-outline">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../items/partials/footer') %>
+
+<script>
+    document.getElementById('categoryId').addEventListener('change', async function() {
+        const categoryId = this.value;
+        const subcategorySelect = document.getElementById('subcategoryId');
+        
+        if (!categoryId) return;
+
+        try {
+            const response = await fetch(`/api/subcategories/${categoryId}`);
+            const data = await response.json();
+            
+            if (data.success && data.subcategories.length > 0) {
+                subcategorySelect.innerHTML = '<option value="">-- Choose Subcategory --</option>';
+                data.subcategories.forEach(sub => {
+                    subcategorySelect.innerHTML += `<option value="${sub._id}">${sub.name}</option>`;
+                });
+            } else {
+                subcategorySelect.innerHTML = '<option value="">No subcategories available</option>';
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    });
+</script>

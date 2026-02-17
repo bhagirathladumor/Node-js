@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Admin Panel</title>
+    <link rel="stylesheet" href="/css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2><i class="fas fa-shield-alt"></i> Admin Panel</h2>
+        </div>
+        <nav class="sidebar-menu">
+            <div style="padding: 0.5rem 1rem; color: #888; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Pages</div>
+            <a href="/dashboard" class="<%= currentPath === '/dashboard' ? 'active' : '' %>">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+            </a>
+            <a href="/profile" class="<%= currentPath === '/profile' ? 'active' : '' %>">
+                <i class="fas fa-user"></i> Profile
+            </a>
+            <a href="/viewAdmin" class="<%= currentPath === '/viewAdmin' ? 'active' : '' %>">
+                <i class="fas fa-users"></i> Manage Admins
+            </a>
+            
+            <div style="margin-top: 1rem; padding: 0.5rem 1rem; color: #888; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Tools & Components</div>
+            <a href="/addAdmin" class="<%= currentPath === '/addAdmin' ? 'active' : '' %>">
+                <i class="fas fa-user-plus"></i> Add Admin
+            </a>
+            
+            <div style="margin-top: 1rem; padding: 0.5rem 1rem; color: #888; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Categories</div>
+            <a href="/addCategory" class="<%= currentPath === '/addCategory' ? 'active' : '' %>">
+                <i class="fas fa-plus-circle"></i> Add Categories
+            </a>
+            <a href="/viewCategories" class="<%= currentPath === '/viewCategories' || currentPath.includes('/editCategory') ? 'active' : '' %>">
+                <i class="fas fa-list"></i> All Categories
+            </a>
+            
+            <div style="margin-top: 1rem; padding: 0.5rem 1rem; color: #888; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Sub Categories</div>
+            <a href="/addSubcategory" class="<%= currentPath === '/addSubcategory' ? 'active' : '' %>">
+                <i class="fas fa-plus-circle"></i> Add Sub Categories
+            </a>
+            <a href="/viewSubcategories" class="<%= currentPath === '/viewSubcategories' || currentPath.includes('/editSubcategory') ? 'active' : '' %>">
+                <i class="fas fa-folder"></i> All Sub Categories
+            </a>
+            
+            <div style="margin-top: 1rem; padding: 0.5rem 1rem; color: #888; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Extra Categories</div>
+            <a href="/addExtracategory" class="<%= currentPath === '/addExtracategory' ? 'active' : '' %>">
+                <i class="fas fa-plus-circle"></i> Add Extra Categories
+            </a>
+            <a href="/viewExtracategories" class="<%= currentPath === '/viewExtracategories' || currentPath.includes('/editExtracategory') ? 'active' : '' %>">
+                <i class="fas fa-layer-group"></i> All Extra Categories
+            </a>
+            
+            <div style="margin-top: 1rem; padding: 0.5rem 1rem; color: #888; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Products</div>
+            <a href="/addProduct" class="<%= currentPath === '/addProduct' ? 'active' : '' %>">
+                <i class="fas fa-plus-circle"></i> Add Product
+            </a>
+            <a href="/viewProducts" class="<%= currentPath === '/viewProducts' || currentPath.includes('/editProduct') ? 'active' : '' %>">
+                <i class="fas fa-box"></i> All Products
+            </a>
+            
+            <a href="/change-password" class="<%= currentPath === '/change-password' ? 'active' : '' %>" style="margin-top: 1rem;">
+                <i class="fas fa-key"></i> Change Password
+            </a>
+            <a href="/logout" style="margin-top: 1rem; color: #ef4444;">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </nav>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <button id="sidebarToggle" class="btn btn-outline" style="display: none; margin-right: 1rem;">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1>My Profile</h1>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <%= admin.fname.charAt(0).toUpperCase() %>
+                    </div>
+                    <div>
+                        <div style="font-weight: 600;"><%= admin.fname %> <%= admin.lname %></div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">Administrator</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="content">
+            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem;">
+                <!-- Profile Card -->
+                <div class="card">
+                    <div class="card-body text-center">
+                        <% if(admin.profile && admin.profile !== 'null' && admin.profile !== '') { %>
+                            <img src="/uploads/<%= admin.profile %>" alt="Profile" class="profile-img-large">
+                        <% } else { %>
+                            <div class="user-avatar" style="width: 120px; height: 120px; font-size: 2.5rem; margin: 0 auto 1rem;">
+                                <%= admin.fname.charAt(0).toUpperCase() %>
+                            </div>
+                        <% } %>
+                        
+                        <h2 style="margin-bottom: 0.5rem;"><%= admin.fname %> <%= admin.lname %></h2>
+                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Administrator</p>
+                        
+                        <div class="d-flex gap-2" style="justify-content: center; flex-wrap: wrap;">
+                            <a href="/editAdmin/<%= admin._id %>?returnTo=/profile" class="btn btn-primary">
+                                <i class="fas fa-edit"></i> Edit Profile
+                            </a>
+                            <a href="/change-password" class="btn btn-outline">
+                                <i class="fas fa-key"></i> Change Password
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Profile Details -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-info-circle"></i> Profile Information</h3>
+                    </div>
+                    <div class="card-body">
+                        <div style="display: grid; gap: 1.5rem;">
+                            <div class="d-flex align-center gap-2">
+                                <div class="stat-icon" style="width: 40px; height: 40px; background: var(--primary-color);">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.875rem; color: var(--text-secondary);">Full Name</div>
+                                    <div style="font-weight: 600;"><%= admin.fname %> <%= admin.lname %></div>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex align-center gap-2">
+                                <div class="stat-icon" style="width: 40px; height: 40px; background: var(--success-color);">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.875rem; color: var(--text-secondary);">Email Address</div>
+                                    <div style="font-weight: 600;"><%= admin.email %></div>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex align-center gap-2">
+                                <div class="stat-icon" style="width: 40px; height: 40px; background: var(--warning-color);">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.875rem; color: var(--text-secondary);">Phone Number</div>
+                                    <div style="font-weight: 600;"><%= admin.phone || 'Not provided' %></div>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex align-center gap-2">
+                                <div class="stat-icon" style="width: 40px; height: 40px; background: var(--danger-color);">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.875rem; color: var(--text-secondary);">City</div>
+                                    <div style="font-weight: 600;"><%= admin.city || 'Not provided' %></div>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex align-center gap-2">
+                                <div class="stat-icon" style="width: 40px; height: 40px; background: var(--dark-color);">
+                                    <i class="fas fa-venus-mars"></i>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.875rem; color: var(--text-secondary);">Gender</div>
+                                    <div style="font-weight: 600;"><%= admin.gander || 'Not specified' %></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
+                            <h4 style="margin-bottom: 1rem; color: var(--text-primary);">About Me</h4>
+                            <p style="color: var(--text-secondary); line-height: 1.6; margin: 0;">
+                                <%= admin.about || 'No description provided.' %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/js/admin.js"></script>
+    <script>
+        if (window.innerWidth <= 768) {
+            document.getElementById('sidebarToggle').style.display = 'inline-flex';
+            // Make profile layout single column on mobile
+            const profileGrid = document.querySelector('.content > div');
+            profileGrid.style.gridTemplateColumns = '1fr';
+        }
+        
+        window.addEventListener('resize', function() {
+            const profileGrid = document.querySelector('.content > div');
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebarToggle').style.display = 'inline-flex';
+                profileGrid.style.gridTemplateColumns = '1fr';
+            } else {
+                document.getElementById('sidebarToggle').style.display = 'none';
+                document.querySelector('.sidebar').classList.remove('active');
+                profileGrid.style.gridTemplateColumns = '1fr 2fr';
+            }
+        });
+    </script>
+</body>
+</html>

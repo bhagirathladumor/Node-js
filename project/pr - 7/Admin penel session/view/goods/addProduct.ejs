@@ -1,0 +1,170 @@
+<%- include('../items/partials/header', { title: 'Add Product' }) %>
+
+<%- include('../items/partials/sidebar') %>
+
+<!-- Main Content -->
+<div class="main-content">
+    <%- include('../items/partials/topbar', { pageTitle: 'Add Product' }) %>
+    
+    <!-- Content -->
+    <div class="content">
+        <div class="card">
+            <div class="card-body">
+                <form action="/addProduct" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="title">Product Title *</label>
+                        <input type="text" id="title" name="title" class="form-control" required>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="categoryId">Category *</label>
+                                <select id="categoryId" name="categoryId" class="form-control" required>
+                                    <option value="">-- Choose Category --</option>
+                                    <% categories.forEach(category => { %>
+                                        <option value="<%= category._id %>"><%= category.name %></option>
+                                    <% }) %>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="subcategoryId">Subcategory *</label>
+                                <select id="subcategoryId" name="subcategoryId" class="form-control" required disabled>
+                                    <option value="">-- First Select Category --</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="extracategoryId">Extra Category *</label>
+                        <select id="extracategoryId" name="extracategoryId" class="form-control" required disabled>
+                            <option value="">-- First Select Subcategory --</option>
+                        </select>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="price">Price *</label>
+                                <input type="number" id="price" name="price" class="form-control" step="0.01" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="discount">Discount (%)</label>
+                                <input type="number" id="discount" name="discount" class="form-control" min="0" max="100" value="0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="stock">Stock Quantity *</label>
+                                <input type="number" id="stock" name="stock" class="form-control" min="0" value="0" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="status">Status *</label>
+                                <select id="status" name="status" class="form-control" required>
+                                    <option value="available">Available</option>
+                                    <option value="out_of_stock">Out of Stock</option>
+                                    <option value="discontinued">Discontinued</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description *</label>
+                        <textarea id="description" name="description" class="form-control" rows="4" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="images">Product Images (Max 5)</label>
+                        <input type="file" id="images" name="images" class="form-control" accept="image/*" multiple>
+                        <small style="color: #666;">You can select up to 5 images</small>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Add Product</button>
+                        <a href="/viewProducts" class="btn btn-outline">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../items/partials/footer') %>
+
+<script>
+    document.getElementById('categoryId').addEventListener('change', async function() {
+        const categoryId = this.value;
+        const subcategorySelect = document.getElementById('subcategoryId');
+        const extracategorySelect = document.getElementById('extracategoryId');
+        
+        extracategorySelect.innerHTML = '<option value="">-- First Select Subcategory --</option>';
+        extracategorySelect.disabled = true;
+
+        if (!categoryId) {
+            subcategorySelect.innerHTML = '<option value="">-- First Select Category --</option>';
+            subcategorySelect.disabled = true;
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/subcategories/${categoryId}`);
+            const data = await response.json();
+            
+            if (data.success && data.subcategories.length > 0) {
+                subcategorySelect.innerHTML = '<option value="">-- Choose Subcategory --</option>';
+                data.subcategories.forEach(sub => {
+                    subcategorySelect.innerHTML += `<option value="${sub._id}">${sub.name}</option>`;
+                });
+                subcategorySelect.disabled = false;
+            } else {
+                subcategorySelect.innerHTML = '<option value="">No subcategories available</option>';
+                subcategorySelect.disabled = true;
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    });
+
+    document.getElementById('subcategoryId').addEventListener('change', async function() {
+        const subcategoryId = this.value;
+        const extracategorySelect = document.getElementById('extracategoryId');
+        
+        if (!subcategoryId) {
+            extracategorySelect.innerHTML = '<option value="">-- First Select Subcategory --</option>';
+            extracategorySelect.disabled = true;
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/extracategories/${subcategoryId}`);
+            const data = await response.json();
+            
+            if (data.success && data.extracategories.length > 0) {
+                extracategorySelect.innerHTML = '<option value="">-- Choose Extra Category --</option>';
+                data.extracategories.forEach(extra => {
+                    extracategorySelect.innerHTML += `<option value="${extra._id}">${extra.name}</option>`;
+                });
+                extracategorySelect.disabled = false;
+            } else {
+                extracategorySelect.innerHTML = '<option value="">No extra categories available</option>';
+                extracategorySelect.disabled = true;
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    });
+</script>

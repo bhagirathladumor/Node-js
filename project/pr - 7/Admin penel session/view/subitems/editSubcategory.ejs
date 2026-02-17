@@ -1,0 +1,51 @@
+<%- include('../items/partials/header', { title: 'Edit Subcategory' }) %>
+
+<%- include('../items/partials/sidebar') %>
+
+<!-- Main Content -->
+<div class="main-content">
+    <%- include('../items/partials/topbar', { pageTitle: 'Edit Subcategory' }) %>
+    
+    <!-- Content -->
+    <div class="content">
+        <div class="card">
+            <div class="card-body">
+                <form action="/updateSubcategory/<%= subcategory._id %>" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="categoryId">Select Category *</label>
+                        <select id="categoryId" name="categoryId" class="form-control" required>
+                            <% categories.forEach(category => { %>
+                                <option value="<%= category._id %>" <%= subcategory.categoryId.toString() === category._id.toString() ? 'selected' : '' %>>
+                                    <%= category.name %>
+                                </option>
+                            <% }) %>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name">Subcategory Name *</label>
+                        <input type="text" id="name" name="name" class="form-control" value="<%= subcategory.name %>" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="image">Subcategory Image</label>
+                        <% if (subcategory.image) { %>
+                            <div style="margin-bottom: 10px;">
+                                <img src="/uploads/subcategory/<%= subcategory.image %>" alt="Current" style="width: 150px; height: 150px; object-fit: cover; border-radius: 5px;">
+                            </div>
+                        <% } %>
+                        <input type="file" id="image" name="image" class="form-control" accept="image/*">
+                        <small style="color: #666;">Leave empty to keep current image</small>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-warning">Update Subcategory</button>
+                        <a href="/viewSubcategories" class="btn btn-outline">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../items/partials/footer') %>
